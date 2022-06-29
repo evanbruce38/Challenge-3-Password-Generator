@@ -66,5 +66,27 @@ var promptUser = function() {
   };
 };
 
+// 4. use random functions to generate password
+function gen() {
+  var result = '';
+  for ( var i = 0; i < characterCount; i++ ) {
+    result += totalCharacters.charAt(Math.floor(Math.random() * totalCharacters.length));
+  };
+
+  //5. check if all criteria has been met
+  if ((includeNum) && (result.match(/[0-9]/)) === null) {
+    return;
+  } else if ((includeLower) && (result.match(/[a-z]/g)) === null) {
+    return;
+  } else if ((includeUpper) && (result.match(/[A-Z]/g)) === null) {
+    return;
+  } else if ((includeSpecial) && (result.match(/[ !~@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g)) === null) {
+    return;
+  } else {
+    finalPassword = result;
+    return;
+  }
+};
+
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
