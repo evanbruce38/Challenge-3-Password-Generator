@@ -40,7 +40,7 @@ function writePassword() {
 var criteriaPrompts = function() {
   
   //ask how long password will be
-  numberOfCharacters = window.prompt("Please enter yourt password length (8-128)")
+  numberOfCharacters = window.prompt("Please enter your password length (8-128)")
   while (numberOfCharacters < 8 || numberOfCharacters > 128) {
     numberOfCharacters = window.prompt("Please enter a number between 8 and 128.")
   };
