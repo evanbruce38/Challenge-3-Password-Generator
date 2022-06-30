@@ -1,67 +1,75 @@
-// Challenge 3 code
+// Generator Functions
 
-//1. State variables
-const characterMin = 8;
-const characterMax = 128;
-const lowerCharacters = "abcdefghijklmnopqrstuvwxyz";
-const upperCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const numericCharacters = "1234567890"
-const specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[]^_`\\{|}~";
+//1. State variables and Array
+
+// Variables
 var totalCharacters = "";
-var finalPassword = "";
+var randomPassword = "";
+
+
+// Array values
+var lowerCharacters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var upperCharacters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var numericCharacters = ["0123456789"];
+var specialCharacters = ["!\"#$%&'()*+,-./:;<=>?@[]^_`\\{|}~"];
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
-
 // 2. Write generatePassword function and clear out previous results
 function generatePassword() {
-  finalPassword = "";
-  promptUser();
-  while (!finalPassword) {
+  randomPassword = "";
+  criteriaPrompts();
+  while (!randomPassword) {
     gen();
   };
   totalCharacters = '';
-  return finalPassword;
+  return randomPassword;
 };
 
-// Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
+
   passwordText.value = password;
 }
 
+
 // 3. prompt user for password criteria
-var promptUser = function() {
+var criteriaPrompts = function() {
   
   //ask how long password will be
-  characterCount = window.prompt("Please enter yourt password length (8-128)")
-  while (characterCount < characterMin || characterCount > characterMax) {
-    characterCount = window.prompt("Sorry, please enter your password length (8-128)")
+  numberOfCharacters = window.prompt("Please enter yourt password length (8-128)")
+  while (numberOfCharacters < 8 || numberOfCharacters > 128) {
+    numberOfCharacters = window.prompt("Please enter a number between 8 and 128.")
   };
 
   //ask if they will include lowercase characters  
-  includeLower = window.confirm("Do you want to include lowercase characters?");
-  if (includeLower) {
+  criteriaLower = window.confirm("Would you like to include lowercase characters?");
+
+  if (criteriaLower) {
     totalCharacters = totalCharacters + lowerCharacters;
   };
 
   //ask if they will include uppercase characters 
-  includeUpper = window.confirm("Do you want to include uppercase characters?");
-  if (includeUpper) {
+  criteriaUpper = window.confirm("Would you like to include uppercase characters?");
+
+  if (criteriaUpper) {
     totalCharacters = totalCharacters + upperCharacters;
   };
 
   //ask if they will include numeric characters
-  includeNum = window.confirm("Do you want to include numbers?");
-  if (includeNum) {
+  criteriaNum = window.confirm("would you like to include numbers?");
+
+  if (criteriaNum) {
     totalCharacters = totalCharacters + numericCharacters;
   };
 
   //ask if they will include special characters 
-  includeSpecial = window.confirm("Do you want to include special characters?");
-  if (includeSpecial) {
+  criteriaSpecial = window.confirm("Would you like to include special characters?");
+
+  if (criteriaSpecial) {
     totalCharacters = totalCharacters + specialCharacters;
   };
 };
@@ -69,21 +77,22 @@ var promptUser = function() {
 // 4. use random functions to generate password
 function gen() {
   var result = '';
-  for ( var i = 0; i < characterCount; i++ ) {
+  for ( var i = 0; i < numberOfCharacters; i++ ) {
     result += totalCharacters.charAt(Math.floor(Math.random() * totalCharacters.length));
   };
 
   //5. check if all criteria has been met
-  if ((includeNum) && (result.match(/[0-9]/)) === null) {
+  
+   if ((criteriaLower) && (result.match(/[a-z]/g)) === null) {
     return;
-  } else if ((includeLower) && (result.match(/[a-z]/g)) === null) {
+  } else if ((criteriaUpper) && (result.match(/[A-Z]/g)) === null) {
     return;
-  } else if ((includeUpper) && (result.match(/[A-Z]/g)) === null) {
-    return;
-  } else if ((includeSpecial) && (result.match(/[ !~@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g)) === null) {
+  } else if ((criteriaNum) && (result.match(/[0-9]/)) === null) {
+      return;
+  } else if ((criteriaSpecial) && (result.match(/[ !~@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g)) === null) {
     return;
   } else {
-    finalPassword = result;
+    randomPassword = result;
     return;
   }
 };
